@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <title>GPT Chat</title>
+ <style>
+   body {
+     font-family: Arial;
+     margin: 40px;
+     max-width: 600px;
+   }
+
+
+   #chat {
+     white-space: pre-wrap;
+     margin-top: 20px;
+   }
+
+
+   .msg {
+     margin-bottom: 10px;
+   }
+ </style>
+</head>
+
+
+<body>
+ <h1>GPT Demo</h1>
+ <input type="text" id="prompt" placeholder="Say something..." style="width: 70%;" />
+ <button onclick="sendMessage()">Send</button>
+ <div id="chat"></div>
+
+
+ <script>
+   async function sendMessage() {
+     const prompt = document.getElementById('prompt').value;
+     document.getElementById('prompt').value = '';
+     const chat = document.getElementById('chat');
+
+
+     chat.innerHTML += `👤: ${prompt}\n`;
+
+
+     const res = await fetch('http://localhost:3000/api/chat', {
+       method: 'POST',
+       headers: {'Content-Type': 'application/json'},
+       body: JSON.stringify({message: prompt})
+     });
+
+
+     const data = await res.json();
+     chat.innerHTML += `🤖: ${data.output}\n\n`;
+   }
+ </script>
+</body>
+
+
+</html>
